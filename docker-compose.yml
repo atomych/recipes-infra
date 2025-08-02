@@ -13,6 +13,21 @@ services:
     ports:
       - "5432:5432"
     restart: unless-stopped
+  app:
+    build:
+      context: https://github.com/atomych/recipes-backend.git#main
+      dockerfile: Dockerfile
+    environment:
+      - DB_HOST=postgres
+      - DB_USER=admin
+      - DB_PASSWORD=password
+      - DB_PORT=5432
+      - DB_NAME=mydb
+      - NODE_ENV=production
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
 
 volumes:
   postgres_data:
