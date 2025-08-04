@@ -1,33 +1,51 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:15
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
     restart: unless-stopped
-  app:
+  backend:
     build:
       context: https://github.com/atomych/recipes-backend.git#main
       dockerfile: Dockerfile
     environment:
-      - DB_HOST=postgres
-      - DB_USER=admin
-      - DB_PASSWORD=password
-      - DB_PORT=5432
-      - DB_NAME=mydb
-      - NODE_ENV=production
-    ports:
-      - "3000:3000"
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - NODE_ENV=${NODE_ENV}
     depends_on:
       - postgres
-
+  frontend:
+    build:
+      context: https://github.com/atomych/recipes-frontend.git#main
+      dockerfile: Dockerfile
+    environment:
+      VUE_APP_API_URL: ${VUE_APP_API_URL}
+    depends_on:
+      - backend
+  nginx:
+    image: nginx:stable-alpine
+    environment:
+      - ENVIRONMENT=${ENVIRONMENT}
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf
+      - ./certs:/etc/nginx/certs
+    ports:
+      - "80:80"
+      - "443:443"
+      - "3000:3000"
+    depends_on:
+      - frontend
+      - backend
+    restart: unless-stopped
 volumes:
   postgres_data:
