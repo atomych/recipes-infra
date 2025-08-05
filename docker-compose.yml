@@ -22,8 +22,10 @@ services:
       - DB_PORT=${DB_PORT}
       - DB_NAME=${DB_NAME}
       - NODE_ENV=${NODE_ENV}
+      - PROD_URL=${PROD_URL}
     depends_on:
       - postgres
+    restart: unless-stopped
   frontend:
     build:
       context: https://github.com/atomych/recipes-frontend.git#main
