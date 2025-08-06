@@ -13,7 +13,7 @@ services:
     restart: unless-stopped
   backend:
     build:
-      context: https://github.com/atomych/recipes-backend.git#main
+      context: https://github.com/atomych/recipes-backend.git#${BACKEND_BRANCH}
       dockerfile: Dockerfile
     environment:
       - DB_HOST=${DB_HOST}
@@ -28,7 +28,7 @@ services:
     restart: unless-stopped
   frontend:
     build:
-      context: https://github.com/atomych/recipes-frontend.git#main
+      context: https://github.com/atomych/recipes-frontend.git#${FRONTEND_BRANCH}
       dockerfile: Dockerfile
     environment:
       VUE_APP_API_URL: ${VUE_APP_API_URL}
