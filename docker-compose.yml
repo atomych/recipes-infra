@@ -23,6 +23,10 @@ services:
       - DB_NAME=${DB_NAME}
       - NODE_ENV=${NODE_ENV}
       - PROD_URL=${PROD_URL}
+      - CODE_EXP=${CODE_EXP}
+      - JWT_SECRET=${JWT_SECRET}
+      - ACCESS_EXP=${ACCESS_EXP}
+      - REFRESH_EXP=${REFRESH_EXP}
     depends_on:
       - postgres
     restart: unless-stopped
