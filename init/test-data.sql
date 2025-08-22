@@ -1,4 +1,1 @@
-INSERT INTO users (id, name) VALUES (1, 'Dog');
-
-INSERT INTO recipes (user_id, title, description, ingredients) VALUES
-  (1, 'Test recipe', 'it is test description for recipe', ARRAY['test ingredient 1', 'test ingredient 2']);
+INSERT INTO users (id, name, email, password) VALUES ('ed7c5346-85f5-4759-b795-3e280305f36d', 'Dog', 'DogEmail', '$2b$10$oUWjSqD2zKlmBtW7J8ZqduBLGnlw7gM5U1dw0BPQ9hByiFNDY9Hhe');
